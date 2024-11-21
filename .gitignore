@@ -1,0 +1,5 @@
+missioni_ancona/*.json
+outputs/*.json
+outputs/*.docx
+outputs/*.pdf
+*.docx
