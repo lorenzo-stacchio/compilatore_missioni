@@ -3,3 +3,4 @@ outputs/*.json
 outputs/*.docx
 outputs/*.pdf
 *.docx
+outputs/*/

@@ -5,7 +5,7 @@ import os
 import glob 
 import win32com.client
 from docx2pdf import convert
-
+import shutil
 
 # Set up argument parser
 def parse_arguments():
@@ -86,11 +86,20 @@ def parse_save_doc(input_path, json_config_path, odir, topdf):
     doc = Document(input_path)
     doc = modify_doc(doc=doc, dict_values=json_config)
     bname = os.path.basename(json_f).split(".json")[0]
-    out_path = odir + "/" + input_path.replace(".docx",f"_compiled_{bname}.docx")
+    bname = bname.replace("generated_","")
+
+    odir_temp = f"{odir}/{bname}/"
+    if os.path.exists(odir_temp):
+        shutil.rmtree(odir_temp)   
+    os.makedirs(odir_temp)
+    
+    out_name = input_path.replace(".docx",f"_{bname}.docx")
+    out_path = odir_temp + "/" + out_name
     doc.save(out_path)
     if topdf:
         # Example usage
         docx_to_pdf(out_path, out_path.replace(".docx",".pdf"))
+        os.remove(out_path)
 
 if __name__=="__main__":
     args = parse_arguments()
